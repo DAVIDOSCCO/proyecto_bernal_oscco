@@ -5,13 +5,13 @@
 }
 
 
-@using (Ajax.BeginForm("Create", new { Controller = "Categoria" },
+@using (Ajax.BeginForm("Create", new { Controller = "Marca" },
     new AjaxOptions
     {
         HttpMethod = "POST",
         InsertionMode = InsertionMode.Replace,
         UpdateTargetId = "modal-body",
-        OnSuccess = "categoria.success(data, 'create');"
+        OnSuccess = "marca.success(data, 'create');"
     },
     htmlAttributes: new { id = "createForm" }
 ))

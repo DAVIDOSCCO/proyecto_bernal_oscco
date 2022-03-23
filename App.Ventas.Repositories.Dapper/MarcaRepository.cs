@@ -20,11 +20,11 @@ namespace App.Ventas.Repositories.Dapper
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var parameters = new DynamicParameters();
-                parameters.Add("@id", id);
-                return await connection.QuerySingleAsync<Marca>("dbo.uspBuscarMarcaPorId", parameters,
-                                                        commandType: System.Data.CommandType.StoredProcedure);
-                //return null;
+                //var parameters = new DynamicParameters();
+                //parameters.Add("@id", id);
+                //return await connection.QuerySingleAsync<Marca>("dbo.uspBuscarMarcaPorId", parameters,
+                //                                        commandType: System.Data.CommandType.StoredProcedure);
+                return null;
                 //return await connection.GetAllAsync<Producto>().Result.Where(c => c.Id.Equals(id)).First();
             }
         }

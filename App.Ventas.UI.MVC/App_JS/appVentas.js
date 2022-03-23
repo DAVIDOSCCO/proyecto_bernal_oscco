@@ -32,7 +32,7 @@
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Se editó el registro satisfactoriamente con el ID = ' + data.Id + ' y nombre = ' + data.Nombre + '!',
+                title: 'Se editó el registro satisfactoriamente con el ID = ' + data.Id + ' y nombre = ' + data.nombre + '!',
                 showConfirmButton: true,
                 showCloseButton: true,
                 timer: 5000 //milisegundos
