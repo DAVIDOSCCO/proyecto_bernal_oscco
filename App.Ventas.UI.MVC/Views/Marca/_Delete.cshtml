@@ -6,8 +6,7 @@
 
 
 <div>
-   
-   
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.NMarca)
@@ -35,12 +34,22 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Ajax.BeginForm("Delete", new { Controller = "Marca" },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "modal-body",
+        OnSuccess = "marca.success(data, 'delete');"
+    },
+    htmlAttributes: new { id = "deleteForm" }
+))
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" /> 
-           
+            <input type="submit" value="Delete" class="btn btn-danger" />
         </div>
     }
 </div>
+
