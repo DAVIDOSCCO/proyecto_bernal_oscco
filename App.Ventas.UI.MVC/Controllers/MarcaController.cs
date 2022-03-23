@@ -48,10 +48,11 @@ namespace App.Ventas.UI.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var resp = await _unit.Marcas.Agregar(marca);
-                if (resp > 0)
-                    return RedirectToAction("Index");
+                if (resp <= 0)
+                   return PartialView("_Create", marca);
                 else
-                    return PartialView("_Create", marca);
+                   return RedirectToAction("Index");
+                
             }
             return PartialView("_Create", marca);
         }
