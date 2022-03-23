@@ -2324,10 +2324,10 @@
     <Content Include="Views\Talla\Index.cshtml" />
     <Content Include="Views\Marca\_Delete.cshtml" />
     <Content Include="Views\Marca\_Details.cshtml" />
-    <Content Include="Views\Marca\_Edit.cshtml" />
     <Content Include="Views\Marca\_FiltrosBusqueda.cshtml" />
     <Content Include="Views\Marca\_List.cshtml" />
     <Content Include="Views\Marca\_Create.cshtml" />
+    <Content Include="Views\Marca\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
