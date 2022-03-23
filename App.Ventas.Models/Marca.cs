@@ -12,7 +12,5 @@ namespace App.Ventas.Models
         public String NMarca { get; set; }
         public String Descripcion { get; set; }
         public bool Estado { get; set; }
-
-
     }
 }
