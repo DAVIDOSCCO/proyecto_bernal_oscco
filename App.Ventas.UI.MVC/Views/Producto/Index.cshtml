@@ -1,0 +1,84 @@
+﻿@model IEnumerable<App.Ventas.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+
+    }
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Modelo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Marca)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Talla)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Imagen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Modelo)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Marca)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Color)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Talla)
+    </td>
+    <td>
+        @if (item.Imagen == null)
+        {
+            @Html.DisplayFor(modelItem => item.Imagen)
+        }
+        else
+        {
+            <img width="100" height="100" src="data:image/jpg;base64,@Convert.ToBase64String(item.Imagen)" />
+        }
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Precio)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Stock)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Estado)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.id })
+    </td>
+</tr>
+}
+
+</table>

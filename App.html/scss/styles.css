@@ -1,0 +1,35 @@
+﻿@charset "UTF-8";
+/*
+    Integración de páginas SCSS
+*/
+body {
+  background-color: darkgrey;
+  margin-left: 2rem;
+  margin-right: 2rem; }
+  body header {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    border-width: 0 0 1px;
+    background-color: beige;
+    height: 4rem; }
+  body footer {
+    background: #000000;
+    color: #ffffff;
+    height: 2rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding-top: 10px; }
+  body section {
+    padding-top: 4rem;
+    margin-bottom: 4rem; }
+  body .header-logo img {
+    float: left;
+    margin-left: 2rem;
+    margin-top: 10px;
+    width: 40px;
+    height: auto; }

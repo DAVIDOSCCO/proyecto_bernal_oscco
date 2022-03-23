@@ -1,0 +1,31 @@
+﻿@model IEnumerable<App.Ventas.Models.Marca>
+
+@{
+    ViewBag.Title = "Mantenimiento de Marcas";
+}
+
+
+@Html.Partial("_FiltrosBusqueda")
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Lista de Marcas</h6>
+    </div>
+    <div class="card-body">
+        @Html.Partial("_List")
+    </div>
+</div>
+
+@Modal.GetModal("Mantenimiento de Marcas")
+
+
+<!-- Custom styles for this page -->
+<link href="~/Content/template/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<script src="~/Content/template/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Content/template/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<script src="~/App_JS/appVentas.js" type="text/javascript"></script>
+<script src="~/App_JS/categoria.js" type="text/javascript"></script>
+
+

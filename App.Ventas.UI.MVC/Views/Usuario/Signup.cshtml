@@ -1,0 +1,90 @@
+﻿@model App.Ventas.UI.MVC.ViewModels.UsuarioRegisterViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    </div>
+                    @using (Html.BeginForm("Signup", "Usuario", FormMethod.Post, htmlAttributes: new { @class = "user" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    @Html.EditorFor(model => model.Nombres, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Nombres" } })
+                                    @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.Apellidos, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Apellidos" } })
+                                    @Html.ValidationMessageFor(model => model.Apellidos, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Email" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Login, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Username" } })
+                                @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Password" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control form-control-user", @placeholder = "Repetir Password" } })
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Register Account" class="btn btn-primary btn-user btn-block" />
+                            </div>
+
+                            <hr>
+                            <a href="index.html" class="btn btn-google btn-user btn-block">
+                                <i class="fab fa-google fa-fw"></i> Register with Google
+                            </a>
+                            <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+                            </a>
+                        </div>
+                    }
+
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="/Usuario/Login">Already have an account? Login!</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="/Home/Index">Volver al Home!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

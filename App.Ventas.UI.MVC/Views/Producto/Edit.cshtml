@@ -1,0 +1,127 @@
+﻿@model App.Ventas.Models.Producto
+
+@{
+    ViewBag.Title = "Edit";
+    List<SelectListItem> itemsMarca = (List<SelectListItem>)ViewBag.itemsMarca;
+    List<SelectListItem> itemsColor = (List<SelectListItem>)ViewBag.itemsColor;
+    List<SelectListItem> itemsTalla = (List<SelectListItem>)ViewBag.itemsTalla;
+}
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("Edit", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Producto</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Modelo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Modelo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Marca, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @* @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
+                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", new { @Class = "form-control" })*@
+                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una marca" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+                @Html.DropDownList("Colores", itemsColor, "Seleccione Color", new { @Class = "form-control" })*@
+                @Html.DropDownList("Colores", itemsColor, "Seleccione Color", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar un color" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Talla, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Talla, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Talla, "", new { @class = "text-danger" })
+                @Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", new { @Class = "form-control" })*@
+                @Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una talla" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Imagen, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @*<img width="100" src="@Url.Action("getImage","Producto",new { id=Model.id})" />
+                        @Html.TextBox("img", null, new { type = "file" })
+        @Html.ValidationMessageFor(model => model.Imagen, "", new { @class = "text-danger" })
+                *@
+                
+
+                @if (Model.Imagen == null)
+                {
+                    @Html.EditorFor(model => model.Imagen, new { htmlAttributes = new { @class = "form-control" } })
+                }
+                else
+                {
+                    <img id="Imagen1" name="Imagen2" width="200" height="200" src="data:image/jpg;base64,@Convert.ToBase64String(Model.Imagen) "  />
+
+                }
+                <input type="file" name="imageLoad" />
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Estado)
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
