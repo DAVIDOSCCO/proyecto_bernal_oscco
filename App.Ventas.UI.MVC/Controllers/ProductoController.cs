@@ -28,80 +28,33 @@ namespace App.Ventas.UI.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            return View(await _unit.Productos.Listar());
+
+            var lstMarcas = await _unit.Marcas.Listar2();
+            //Opción 1:
+            ViewData["ListaMarcas"] = lstMarcas;
+
+            //Opción 2:
+            ViewBag.lstMarcas = lstMarcas;
+
+            _log.Info("Ejecución del Controlador Producto, Método Index -- OK");
+             return View(await _unit.Productos.Listar());
         }
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            List<MarcaViewModel> lst = null;
-            var dbMarca = await _unit.Marcas.Listar();
-            lst =
-                (from d in dbMarca
-                 select new MarcaViewModel
-                 {
-                     id = d.id,
-                     Marca = d.NMarca
-                 }).ToList();
+           
+            var ListaMarcas = await _unit.Marcas.Listar();
+            ViewBag.ListaMarcas = ListaMarcas;
 
-            List<SelectListItem> itemsMarca = lst.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Marca.ToString(),
-                    Value = d.Marca.ToString(),
-                    Selected = false
-                };
-            });
+            var ListaColores = await _unit.Colores.Listar();
+            ViewBag.ListaColores = ListaColores;
 
-            ViewBag.itemsMarca = itemsMarca;
+            var ListaTallas= await _unit.Tallas.Listar();
+            ViewBag.ListaTallas = ListaTallas;
 
 
-            List<ColorViewModel> lst2 = null;
-            var dbColor = await _unit.Colores.Listar();
-            lst2 =
-                (from d in dbColor
-                 select new ColorViewModel
-                 {
-                     id = d.id,
-                     Color = d.NColor
-                 }).ToList();
-
-            List<SelectListItem> itemsColor = lst2.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Color.ToString(),
-                    Value = d.Color.ToString(),
-                    Selected = false
-                };
-            });
-
-            ViewBag.itemsColor = itemsColor;
-
-
-            List<TallaViewModel> lst3 = null;
-            var dbTalla = await _unit.Tallas.Listar();
-            lst3 =
-                (from d in dbTalla
-                 select new TallaViewModel
-                 {
-                     id = d.id,
-                     Talla = d.NTalla
-                 }).ToList();
-
-            List<SelectListItem> itemsTalla = lst3.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Talla.ToString(),
-                    Value = d.Talla.ToString(),
-                    Selected = false
-                };
-            });
-
-            ViewBag.itemsTalla = itemsTalla;
-
-            return View();
+            //return View();
+            return PartialView("_Create");
         }
 
 
@@ -109,15 +62,7 @@ namespace App.Ventas.UI.MVC.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Producto producto)
         {
-            string strDDLValue = Request.Form["Marcas"].ToString();
-            producto.Marca = strDDLValue;
-
-            string strDDLValue2 = Request.Form["Colores"].ToString();
-            producto.Color = strDDLValue2;
-
-            string strDDLValue3 = Request.Form["Tallas"].ToString();
-            producto.Talla = strDDLValue3;
-
+            
             HttpPostedFileBase FileBase = Request.Files[0];  //Posicion 0
             // Para recorrer varios archivos que vengan desde la pagina  HttpFileCollectionBase ColleccioBase=Request.File
 
@@ -138,113 +83,42 @@ namespace App.Ventas.UI.MVC.Controllers
             {
                 var resp = await _unit.Productos.Agregar(producto);
                 if (resp > 0)
-                    return RedirectToAction("Index");
+                    return (new JsonResult
+                    {
+                        ContentType = "application/json",
+                        Data = resp
+                    });
                 else
-                    return View(producto);
+                    return PartialView("_Create", producto);
             }
-            return View(producto);
+            _log.Info("No funcionó el binding de producto (ModelState = false)");
+            return PartialView("_Create", producto);
+
+            
         }
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var result = await _unit.Productos.Obtener(id);
+           // var result = await _unit.Productos.Obtener(id);
+           
+            var ListaMarcas = await _unit.Marcas.Listar();
+            ViewBag.ListaMarcas = ListaMarcas;
 
-            List<MarcaViewModel> lst = null;
-            var dbMarca = await _unit.Marcas.Listar();
-            lst =
-                (from d in dbMarca
-                 select new MarcaViewModel
-                 {
-                     id = d.id,
-                     Marca = d.NMarca
-                 }).ToList();
+            var ListaColores = await _unit.Colores.Listar();
+            ViewBag.ListaColores = ListaColores;
 
-            List<SelectListItem> itemsMarca = lst.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Marca.ToString(),
-                    Value = d.Marca.ToString(),
-                    Selected = false
-                };
-            });
+            var ListaTallas = await _unit.Tallas.Listar();
+            ViewBag.ListaTallas = ListaTallas;
 
-            itemsMarca.Find(c => c.Value == result.Marca.ToUpper()).Selected = true;
-            ViewBag.itemsMarca = itemsMarca;
-
-
-            List<ColorViewModel> lst2 = null;
-            var dbColor = await _unit.Colores.Listar();
-            lst2 =
-                (from d in dbColor
-                 select new ColorViewModel
-                 {
-                     id = d.id,
-                     Color = d.NColor
-                 }).ToList();
-
-            List<SelectListItem> itemsColor = lst2.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Color.ToString(),
-                    Value = d.Color.ToString(),
-                    Selected = false
-                };
-            });
-
-            itemsColor.Find(c => c.Value == result.Color.ToUpper()).Selected = true;
-            ViewBag.itemsColor = itemsColor;
-            
-
-            ViewBag.items = itemsColor;
-
-
-            List<TallaViewModel> lst3 = null;
-            var dbTalla = await _unit.Tallas.Listar();
-            lst3 =
-                (from d in dbTalla
-                 select new TallaViewModel
-                 {
-                     id = d.id,
-                     Talla = d.NTalla
-                 }).ToList();
-
-            List<SelectListItem> itemsTalla = lst3.ConvertAll(d =>
-            {
-                return new SelectListItem()
-                {
-                    Text = d.Talla.ToString(),
-                    Value = d.Talla.ToString(),
-                    Selected = false
-                };
-            });
-
-            itemsTalla.Find(c => c.Value == result.Talla.ToUpper()).Selected = true;
-            ViewBag.itemsTalla = itemsTalla;
-
-
-
-
-            return View(result);
+            return PartialView("_Edit", await _unit.Productos.Obtener(id));
+            //return View(result);
         }
         [HttpPost]
         public async Task<ActionResult> Edit(Producto producto)
         {
-            string strDDLValue = Request.Form["Marcas"].ToString();
-            producto.Marca = strDDLValue;
-
-            string strDDLValue2 = Request.Form["Colores"].ToString();
-            producto.Color = strDDLValue2;
-
-            string strDDLValue3 = Request.Form["Tallas"].ToString();
-            producto.Talla = strDDLValue3;
-
-            
+                        
             HttpPostedFileBase FileBase = Request.Files[0]; 
             
-            
-
             if (FileBase.ContentLength==0)
             {
                 //string  imagenActual = Request.Form["Imagen2"].ToString();
@@ -260,51 +134,77 @@ namespace App.Ventas.UI.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var resp = await _unit.Productos.Actualizar(producto);
-                if (resp==1)
-                    return RedirectToAction("Index");
+                if (resp>0)
+                    return (new JsonResult
+                    {
+                        ContentType = "application/json",
+                        Data = producto
+                    });
                 else
-                    return View(producto);
+                    return PartialView("_Edit", producto);
             }
-            return View(producto);
+            return PartialView("_Edit", producto);
         }
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            return View(await _unit.Productos.Obtener(id));
+            //return View(await _unit.Productos.Obtener(id));
+            return PartialView("_Delete", await _unit.Productos.Obtener(id));
         }
         [HttpPost]
         [ActionName("Delete")]
         public async Task<ActionResult> DeletePost(int id)
         {
-            if ((await _unit.Productos.Eliminar(id)) != 0) 
-                return RedirectToAction("Index");
+            //if ((await _unit.Productos.Eliminar(id)) != 0) 
+            //    return RedirectToAction("Index");
 
-            return View(_unit.Productos.Obtener(id));
+            //return View(_unit.Productos.Obtener(id));
+            if ((await _unit.Categorias.Eliminar(id)) != 0)
+                return (new JsonResult
+                {
+                    ContentType = "application/json",
+                    Data = id
+                });
+
+            return PartialView("_Delete", _unit.Productos.Obtener(id));
         }
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            return View(await _unit.Productos.Obtener(id));
+            // return View(await _unit.Productos.Obtener(id));
+            return PartialView("_Details", await _unit.Productos.Obtener(id));
         }
 
-        [HttpGet]
-        public async Task<ActionResult> getImage(int id)
+        public async Task<PartialViewResult> List()
         {
-            var resp = await _unit.Productos.BuscarPorId(id);
-            byte[] byteImage = resp.Imagen;
-
-            //ImageConverter converter = new ImageConverter();
-            //byte[] byteImage = (byte[])converter.ConvertTo(resp.Imagen, typeof(byte[]));
-
-            MemoryStream memoryStream = new MemoryStream(byteImage);
-            Image image = Image.FromStream(memoryStream);
-
-            image.Save(memoryStream, ImageFormat.Jpeg);
-            //memoryStream.WriteTo(context.Response.OutputStream);
-            memoryStream.Position = 0;
-
-            return File (memoryStream,"image/jpg");
-
-        }
+            return PartialView("_List", await _unit.Productos.Listar());
     }
+
+    [Route("ListByFilters/{productoId}/{productoName}")]
+    public async Task<PartialViewResult> ListByFilters(string productoId, string productoName)
+    {
+        List<Producto> lstProductos = new List<Producto>();
+
+        if (!productoId.Equals("-"))
+        {
+            var producto = await _unit.Productos.Obtener(int.Parse(productoId));
+            lstProductos.Add(producto);
+        }
+        else if (!productoName.Equals("-"))
+        {
+            var resultado = await _unit.Productos.Listar(productoName);
+            lstProductos = resultado.ToList();
+        }
+        else
+        {
+            var resultado = await _unit.Productos.Listar();
+            lstProductos = resultado.ToList();
+        }
+
+        return PartialView("_List", lstProductos);
+    }
+
+
+
+}
 }

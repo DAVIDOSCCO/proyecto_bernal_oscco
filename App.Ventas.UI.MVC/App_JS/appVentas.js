@@ -2,6 +2,7 @@
 
     appVentas.getModal = getModalContent;
     appVentas.closeModal = closeModal;
+    appVentas.actualizarDataTable = actualizarDataTable; //método estandar para actualizar Data Datable
 
     return appVentas;
 
@@ -32,7 +33,7 @@
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Se editó el registro satisfactoriamente..... ', 
+                title: 'Se editó el registro satisfactoriamente con el ID = ' + data.id + ' y nombre = ' + data.Modelo + '!',
                 showConfirmButton: true,
                 showCloseButton: true,
                 timer: 5000 //milisegundos
@@ -50,7 +51,7 @@
         }
     }
 
-    function actualizarDataTable(url, idDataTable) {
+    function actualizarDataTable(url, idDataTable){
         $.get(url, function (data) {
             $(idDataTable).html(data);
         })

@@ -11,6 +11,7 @@ namespace App.Ventas.Repositories
     {
         Task<Marca> BuscarPorId(int id);
         Task<IEnumerable<Marca>> Listar(string marca);
+        Task<IEnumerable<Marca>> Listar2();
         Task<int> Eliminar(int id);
 
     }

@@ -48,12 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorRepository.cs" />
+    <Compile Include="TallaRepository.cs" />
+    <Compile Include="TipoCategoriaRepository.cs" />
+    <Compile Include="CategoriaRepository.cs" />
+    <Compile Include="ClienteRepository.cs" />
+    <Compile Include="LogRepository.cs" />
     <Compile Include="MarcaRepository.cs" />
     <Compile Include="ProductoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="TallaRepository.cs" />
+    <Compile Include="RolRepository.cs" />
+    <Compile Include="SubCategoriaRepository.cs" />
     <Compile Include="UsuarioRepository.cs" />
+    <Compile Include="VentaRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

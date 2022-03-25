@@ -1,0 +1,114 @@
+﻿@model App.Ventas.Models.Categoria
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Ajax.BeginForm("Edit", new { Controller = "Categoria" },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "modal-body",
+        OnSuccess = "categoria.success(data, 'edit');"
+    },
+    htmlAttributes: new { id = "editForm" }
+))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Categoria</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Estado)
+                    @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdTipoCategoria, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.IdTipoCategoria, new { htmlAttributes = new { @class = "form-control" } })*@
+                @*Forma1*@
+                @*
+                <select id="IdTipoCategoria" name="IdTipoCategoria" class="form-control" placeholder="Tipo Categoría" required>
+                    <option value="0"> --Seleccionar-- </option>
+                    @foreach (var item in ViewBag.ListaTipoCategorias)
+                    {
+                        <option value="@item.Id" @(Model.IdTipoCategoria.Equals(item.Id)? "selected":"")>@item.Nombre</option>
+                    }
+                </select>
+                *@
+
+                @*Forma2*@
+                @Html.DropDownListFor(model => model.IdTipoCategoria,
+                                        ViewBag.ListaTipoCategorias2 as SelectList,
+                                        "--Seleccionar--",
+                                        htmlAttributes: new { @class = "form-control" }
+                                        )
+
+                @Html.ValidationMessageFor(model => model.IdTipoCategoria, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-warning" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<h4>Lista de Subcategorias</h4>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Subcategorías Asociadas</h6>
+    </div>
+    <div class="card-body" id="subcategoriaList">
+        @Html.Partial("_ListSubcategoria")
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

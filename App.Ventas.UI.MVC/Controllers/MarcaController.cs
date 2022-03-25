@@ -33,7 +33,7 @@ namespace App.Ventas.UI.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-              
+
 
             return View(await _unit.Marcas.Listar());
         }
@@ -73,7 +73,7 @@ namespace App.Ventas.UI.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var resp = await _unit.Marcas.Modificar(marca);
-                if (resp)                   
+                if (resp)
                     return (new JsonResult
                     {
                         ContentType = "application/json",
@@ -82,13 +82,13 @@ namespace App.Ventas.UI.MVC.Controllers
                 else
                     return PartialView("_Edit", marca);
             }
-            return PartialView("_Edit",marca);
+            return PartialView("_Edit", marca);
         }
         [HttpGet]
-        
+
         public async Task<ActionResult> Delete(int id)
         {
-            return PartialView("_Delete",await _unit.Marcas.Obtener(id));
+            return PartialView("_Delete", await _unit.Marcas.Obtener(id));
         }
         [HttpPost]
         [ActionName("Delete")]
