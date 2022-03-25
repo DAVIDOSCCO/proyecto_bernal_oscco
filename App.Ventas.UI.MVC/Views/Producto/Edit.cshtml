@@ -2,10 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    List<SelectListItem> itemsMarca = (List<SelectListItem>)ViewBag.itemsMarca;
-    List<SelectListItem> itemsColor = (List<SelectListItem>)ViewBag.itemsColor;
-    List<SelectListItem> itemsTalla = (List<SelectListItem>)ViewBag.itemsTalla;
-}
+  
 }
 
 <h2>Edit</h2>
@@ -34,8 +31,18 @@
             <div class="col-md-10">
                 @* @Html.EditorFor(model => model.Marca, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Marca, "", new { @class = "text-danger" })
-                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", new { @Class = "form-control" })*@
-                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una marca" })
+                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", new { @Class = "form-control" })
+                @Html.DropDownList("Marcas", itemsMarca, "Seleccione Marca", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una marca" })*@
+                @Html.DropDownListFor(model => model.Marca,
+                                        new SelectList(ViewBag.ListaMarcas, "NMarca", "NMarca"),
+                                        "--Seleccionar--",
+                                        htmlAttributes: new
+                                        {
+                                            @class = "form-control",
+                                            @data_val = "true",
+                                            @data_val_required = "Debe seleccionar una marca"
+                                        }
+                                        )
             </div>
         </div>
 
@@ -44,8 +51,17 @@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
-                @Html.DropDownList("Colores", itemsColor, "Seleccione Color", new { @Class = "form-control" })*@
-                @Html.DropDownList("Colores", itemsColor, "Seleccione Color", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar un color" })
+                @Html.DropDownList("Colores", itemsColor, "Seleccione Color", new { @Class = "form-control" })
+                Html.DropDownList("Colores", itemsColor, "Seleccione Color", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar un color" })*@
+                @Html.DropDownListFor(model => model.Color,
+                                    new SelectList(ViewBag.ListaColores, "NColor", "NColor"),
+                                    "--Seleccionar--",
+                                    htmlAttributes: new
+                                        {
+                                            @class = "form-control"
+                                        }
+                                    )
+
             </div>
         </div>
 
@@ -54,8 +70,17 @@
             <div class="col-md-10">
                 @*@Html.EditorFor(model => model.Talla, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.Talla, "", new { @class = "text-danger" })
-                @Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", new { @Class = "form-control" })*@
-                @Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una talla" })
+                @Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", new { @Class = "form-control" })
+                Html.DropDownList("Tallas", itemsTalla, "Seleccione Talla", htmlAttributes: new { @class = "form-control combo2 required", @data_val = "true", @data_val_required = "Debe seleccionar una talla" })*@
+                @Html.DropDownListFor(model => model.Talla,
+                                       new SelectList(ViewBag.ListaTallas, "NTalla", "NTalla"),
+                                       "--Seleccionar--",
+                                       htmlAttributes: new
+                                           {
+                                               @class = "form-control"
+                                           }
+                                       )
+
             </div>
         </div>
 

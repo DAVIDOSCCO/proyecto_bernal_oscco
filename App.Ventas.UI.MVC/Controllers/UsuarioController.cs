@@ -33,6 +33,7 @@ namespace App.Ventas.UI.MVC.Controllers
             return View();
         }
         [HttpPost]
+        //Metodo Create: Proceso de creación de usuarios internos (Administrador, Vendedor)
         public async Task<ActionResult> Create(Usuario usuario)
         {
             if (ModelState.IsValid)
@@ -135,6 +136,7 @@ namespace App.Ventas.UI.MVC.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
+        //Metodo Signup: Proceso de creación de usuarios externos
         public async Task<ActionResult> Signup(UsuarioRegisterViewModel usuarioViewModel)
         {
             if (ModelState.IsValid)

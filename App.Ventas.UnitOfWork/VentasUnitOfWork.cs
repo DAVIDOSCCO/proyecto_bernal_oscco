@@ -12,32 +12,66 @@ namespace App.Ventas.UnitOfWork
     {
         public VentasUnitOfWork(string connectionString)
         {
-          
-            Productos = new ProductoRepository(connectionString);
-           
-           Usuarios = new UsuarioRepository(connectionString);
-
+            Categorias = new CategoriaRepository(connectionString);
+            TipoCategorias = new TipoCategoriaRepository(connectionString);
+            Clientes = new ClienteRepository(connectionString);
+            Logs = new LogRepository(connectionString);
             Marcas = new MarcaRepository(connectionString);
-
+            Productos = new ProductoRepository(connectionString);
+            Roles = new RolRepository(connectionString);
+            Usuarios = new UsuarioRepository(connectionString);
+            SubCategorias = new SubCategoriaRepository(connectionString);
+            Ventas = new VentaRepository(connectionString);
+            
             Colores = new ColorRepository(connectionString);
-
             Tallas = new TallaRepository(connectionString);
-
         }
-      
+        public ICategoriaRepository Categorias
+        {
+            get;
+            private set;
+        }
+        public ITipoCategoriaRepository TipoCategorias
+        {
+            get;
+            private set;
+        }
+        public IClienteRepository Clientes
+        {
+            get;
+            private set;
+        }
+        public ILogRepository Logs
+        {
+            get;
+            private set;
+        }
+        public IMarcaRepository Marcas
+        {
+            get;
+            private set;
+        }
         public IProductoRepository Productos
         {
             get;
             private set;
         }
-
+        public IRolRepository Roles
+        {
+            get;
+            private set;
+        }
         public IUsuarioRepository Usuarios
         {
             get;
             private set;
         }
-
-        public IMarcaRepository Marcas
+        public ISubCategoriaRepository SubCategorias
+        {
+            get;
+            private set;
+        }
+        public IVentaRepository Ventas
         {
             get;
             private set;
@@ -47,14 +81,11 @@ namespace App.Ventas.UnitOfWork
             get;
             private set;
         }
-
-
         public ITallaRepository Tallas
         {
             get;
             private set;
         }
     }
-
 
 }

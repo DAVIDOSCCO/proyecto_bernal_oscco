@@ -1,0 +1,74 @@
+﻿@model App.Ventas.Models.Categoria
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Categoria</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTipoCategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdTipoCategoria)
+        </dd>
+
+    </dl>
+
+    @using (Ajax.BeginForm("Delete", new { Controller = "Categoria" },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "modal-body",
+        OnSuccess = "categoria.success(data, 'delete');"
+    },
+    htmlAttributes: new { id = "deleteForm" }
+))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+</div>
+

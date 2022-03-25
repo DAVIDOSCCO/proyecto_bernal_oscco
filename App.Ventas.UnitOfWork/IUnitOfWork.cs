@@ -9,13 +9,18 @@ namespace App.Ventas.UnitOfWork
 {
     public interface IUnitOfWork
     {
-       
-        IProductoRepository Productos { get; }       
-        IUsuarioRepository Usuarios { get; }
-
+        ICategoriaRepository Categorias { get; }
+        ITipoCategoriaRepository TipoCategorias { get; }
+        IClienteRepository Clientes { get; }
+        ILogRepository Logs { get; }
         IMarcaRepository Marcas { get; }
-        IColorRepository Colores { get; }
+        IProductoRepository Productos { get; }       
+        IRolRepository Roles { get; }
+        IUsuarioRepository Usuarios { get; }
+        ISubCategoriaRepository SubCategorias { get; }
+        IVentaRepository Ventas { get; }
 
+        IColorRepository Colores { get; }
         ITallaRepository Tallas { get; }
     }
 }

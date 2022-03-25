@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,12 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Categoria.cs" />
+    <Compile Include="Cliente.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Rol.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SubCategoria.cs" />
     <Compile Include="Talla.cs" />
+    <Compile Include="TipoCategoria.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Venta.cs" />
+    <Compile Include="VentaDetalle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

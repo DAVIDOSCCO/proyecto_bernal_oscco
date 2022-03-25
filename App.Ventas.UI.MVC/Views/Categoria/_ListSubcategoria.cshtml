@@ -1,0 +1,89 @@
+﻿@*@model IEnumerable<App.Ventas.Models.SubCategoria>*@
+
+<div id="subcategoriaTableContainer" @*class="table-responsive"*@>
+    <br />
+    <br />
+    <table id="subcategoriaTable" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Subcategoria
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Descripcion
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    Subcategoria
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Descripcion
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Acciones
+                </th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @foreach (var item in ViewBag.Subcategorias)
+            {
+                <tr>
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Nombre)
+                    </td>
+                    <td>
+                        @item.Descripcion)
+                    </td>
+                    <td>
+                        @if (item.Estado == true)
+                        {
+                            <input checked="checked" class="check-box" disabled="disabled" type="checkbox" />
+                        }
+                        else
+                        {
+                            <input class="check-box" disabled="disabled" type="checkbox" />
+                        }
+                    </td>
+                    
+                    <td>
+                        <a href="#" class="btn btn-warning" onclick="appVentas.getModal('@Url.Action("Edit","Subcategoria", new { id = item.Id })');"
+                           data-toggle="modal" data-target="#modal-container">
+                            <span class="fa fa-edit">&nbsp;&nbsp; Editar</span>
+                        </a>
+
+                        <a href="#" class="btn btn-primary" onclick="appVentas.getModal('@Url.Action("Details","Subcategoria", new { id = item.Id })');"
+                           data-toggle="modal" data-target="#modal-container">
+                            <span class="fa fa-search">&nbsp;&nbsp; Ver</span>
+                        </a>
+
+                        <a href="#" class="btn btn-danger" onclick="appVentas.getModal('@Url.Action("Delete","Subcategoria", new { id = item.Id })');"
+                           data-toggle="modal" data-target="#modal-container">
+                            <span class="fa fa-trash">&nbsp;&nbsp; Eliminar</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -43,11 +43,17 @@
   <ItemGroup>
     <Compile Include="IColorRepository.cs" />
     <Compile Include="IMarcaRepository.cs" />
-    <Compile Include="IMarcaReposity.cs" />
+    <Compile Include="ITallaRepository.cs" />
+    <Compile Include="ITipoCategoriaRepository.cs" />
+    <Compile Include="ICategoriaRepository.cs" />
+    <Compile Include="IClienteRepository.cs" />
+    <Compile Include="ILogRepository.cs" />
     <Compile Include="IProductoRepository.cs" />
     <Compile Include="IRepository.cs" />
-    <Compile Include="ITallaRepository.cs" />
+    <Compile Include="IRolRepository.cs" />
+    <Compile Include="ISubCategoriaRepository.cs" />
     <Compile Include="IUsuarioRepository.cs" />
+    <Compile Include="IVentaRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
