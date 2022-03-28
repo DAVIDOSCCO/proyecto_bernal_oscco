@@ -13,5 +13,6 @@ namespace App.Ventas.Models
         public String Descripcion { get; set; }
         public bool Estado { get; set; }
 
+
     }
 }

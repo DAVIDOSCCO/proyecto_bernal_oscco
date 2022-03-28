@@ -1,0 +1,215 @@
+﻿@model App.Ventas.Models.Producto
+
+@{
+    ViewBag.Title = "Compra";
+}
+
+<h2>Compra</h2>
+
+@using (Ajax.BeginForm("Compra", new { Controller = "Producto" },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "modal-body",
+        OnSuccess = "producto.success(data, 'compra');"
+    },
+    htmlAttributes: new { id = "compraForm", enctype = "multipart/form-data" }
+))
+
+
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <h4>Producto</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Modelo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Modelo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Marca)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Marca)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Color)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Color)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Talla)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Talla)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </dt>
+
+            <dd>
+                @if (Model.Imagen == null)
+                {
+                    @Html.DisplayFor(modelItem => Model.Imagen)
+                }
+                else
+                {
+                    <img width="100" height="100" src="data:image/jpg;base64,@Convert.ToBase64String(Model.Imagen)" />
+                }
+
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Precio)
+            </dt>
+
+            <dd>
+ 
+        @*           @Html.DisplayFor(model => model.Precio)*@
+ 
+                <input type="text" name="precio" id="precio" value=@Model.Precio readonly />
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Stock)
+            </dt>
+
+            <dd>
+                @* @Html.DisplayFor(model => model.Stock)*@
+                <input type="text" name="stock" id="stock" value=@Model.Stock readonly />
+            </dd>
+
+            <dt>
+                Cantidad
+            </dt>
+
+            <dd>
+                <input type="text" name="cantidad" id="cantidad" value="0" onchange="sumar();" placeholder="Minimo 1 unidad" />
+            </dd>
+
+            <dt>
+                Total a Pagar
+            </dt>
+
+            <dd>
+                <input type="text" name="total" value="0" id="total" readonly />
+            </dd>
+
+            <dt>
+                Cliente
+            </dt>
+
+            <dd>
+                <input type="text" name="cliente" id="cliente" placeholder="Ingrese Datos del cliente" />
+            </dd>
+        </dl>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @*<input type="submit" value="Comprar" class="btn btn-default" />*@
+                <input type="submit" value="Comprar" onclick="return Validar();" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+
+        function Validar() {
+            costo = document.getElementById('total').value;
+            cliente = document.getElementById('cliente').value;
+            if (parseInt(costo) == 0 || cliente==null )  {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Debe completar la Cantidad y/o Cliente',
+                    showConfirmButton: true,
+                    showCloseButton: true,
+                    timer: 5000 //milisegundos
+                })
+                return false;
+            }
+            else {
+                //console.log('antes del submit');
+                //$('#Compra').submit();
+                //console.log('despues');
+                
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Transacción éxitosa',
+                    showConfirmButton: true,
+                    showCloseButton: true,
+                    timer: 5000 //milisegundos
+                })
+                return true;
+                
+
+            }
+        }
+
+        function sumar() {
+
+            var cantidad = document.getElementById('cantidad').value;
+            cantidad = (cantidad == null || cantidad == undefined || cantidad == "") ? 0 : cantidad;
+            console.log(cantidad);
+
+
+            //valor = parseInt(valor); // Convertir el valor a un entero (número).
+
+            //costo = document.getElementById('Costo').value;
+            var costo = document.getElementById('precio').value;
+            costo = (costo == null || costo == undefined || costo == "") ? 0 : costo;
+            console.log(costo);
+
+            stock = document.getElementById('stock').value;
+            stock = (stock == null || stock == undefined || stock == "") ? 0 : stock;
+            console.log(stock);
+
+            // Aquí valido si hay un valor previo, si no hay datos, le pongo un cero "0".
+
+
+            /* Esta es la suma. */
+            var total = 0;
+            total = (parseFloat(costo) * parseInt(cantidad));
+
+            // Colocar el resultado de la suma en el control "span".
+            if (parseInt(stock) >= parseInt(cantidad)) {
+                document.getElementById('total').value = total;
+            }
+            else {
+                //alert("La Cantidad a Comprar es mayor que el Stock Disponible");
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'La Cantidad a Comprar es mayor que el Stock Disponible',
+                    showConfirmButton: true,
+                    showCloseButton: true,
+                    timer: 5000 //milisegundos
+                })
+                document.getElementById('cantidad').value = 0;
+                document.getElementById('total').value = 0;
+            }
+
+        }
+    </script>
+    @*<p>
+
+            @Html.ActionLink("Compra", "Compra", new { id = Model.id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>*@
+}

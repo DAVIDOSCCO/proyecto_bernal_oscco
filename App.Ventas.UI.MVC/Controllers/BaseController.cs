@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace App.Ventas.UI.MVC.Controllers
 {
     [ErrorActionFilter] //Anottations -> ActionFilter
-    [Authorize]
+    //[Authorize]
     public class BaseController : Controller
     {
         protected readonly IUnitOfWork _unit;

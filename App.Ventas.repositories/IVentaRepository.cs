@@ -11,6 +11,7 @@ namespace App.Ventas.Repositories
     {
         Task<IEnumerable<Venta>> ListarResumen(DateTime fecha);
         Task<bool> AnularVenta(int id);
+        Task<int> InsertarTx(Venta venta);
 
     }
 }

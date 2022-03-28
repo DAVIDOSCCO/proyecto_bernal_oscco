@@ -9,9 +9,12 @@ namespace App.Ventas.Models
     public class Venta
     {
         public int Id { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public decimal Total { get; set; }
-        public int IdCliente { get; set; }
+        public int idProducto { get; set; }
+        public String Cliente { get; set; }
+        public int Cantidad { get; set; }
+        //public decimal Precio { get; set; }
+        public DateTime  Fecha { get; set; }
+
 
     }
 }

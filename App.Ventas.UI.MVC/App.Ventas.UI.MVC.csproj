@@ -2119,7 +2119,6 @@
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\Delete.cshtml" />
     <Content Include="Views\Usuario\Details.cshtml" />
-    <Content Include="Views\Venta\Index.cshtml" />
     <Content Include="Views\Venta\Create.cshtml" />
     <Content Include="Views\Venta\Edit.cshtml" />
     <Content Include="Views\Venta\Delete.cshtml" />
@@ -2162,6 +2161,11 @@
     <Content Include="Views\Marca\_Edit.cshtml" />
     <Content Include="Views\Marca\_FiltrosBusqueda.cshtml" />
     <Content Include="Views\Marca\_List.cshtml" />
+    <Content Include="Views\Producto\_Compra.cshtml" />
+    <Content Include="Views\Venta\Index.cshtml" />
+    <Content Include="Views\Venta\_FiltrosBusqueda.cshtml" />
+    <Content Include="Views\Venta\_List.cshtml" />
+    <Content Include="Views\Venta\_Compra.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

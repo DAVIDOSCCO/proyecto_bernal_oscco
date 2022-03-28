@@ -175,6 +175,51 @@ namespace App.Ventas.UI.MVC.Controllers
             return PartialView("_Details", await _unit.Productos.Obtener(id));
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Compra(int id)
+        {
+            // return View(await _unit.Productos.Obtener(id));
+            return PartialView("_Compra", await _unit.Productos.Obtener(id));
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> Compra(Producto producto)
+        {
+            Venta venta = new Venta();
+            venta.idProducto = producto.id;
+            venta.Cliente = Request.Form["cliente"];
+            venta.Fecha = DateTime.Now;
+            venta.Cantidad = int.Parse(Request.Form["cantidad"]);
+            //venta.Precio = Convert.ToDecimal(producto.Precio);
+
+            //string userName = Request.Form["txtUserName"]; 
+            //string password = Request.Form["txtPassword"];
+            //if (userName.Equals("user", StringComparison.CurrentCultureIgnoreCase)
+            //&& password.Equals("pass", StringComparison.CurrentCultureIgnoreCase))
+            //{
+            //    return Content("Login successful !");
+            //}
+            //else
+            //{
+            //    return Content("Login failed !");
+            //}
+
+            // return View(await _unit.Productos.Obtener(id));
+            var resp = await _unit.Ventas.InsertarTx(venta);
+            if (resp>0)
+            {
+                return PartialView("_List", await _unit.Productos.Listar());
+            }
+            else
+            {
+                _log.Info("No se realizo la Venta porque la Cantidad es mayor que el Stock");
+                return PartialView("_Compra", await _unit.Productos.Obtener(producto.id));
+            }
+            
+        }
+
+
         public async Task<PartialViewResult> List()
         {
             return PartialView("_List", await _unit.Productos.Listar());

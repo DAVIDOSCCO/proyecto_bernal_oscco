@@ -1,0 +1,63 @@
+﻿<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Filtros de Búsqueda</h6>
+    </div>
+    <div class="card-body">
+        <form class="user">
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <input type="text" id="productoId" name="productoId" class="form-control form-control-user" placeholder="Código de Producto" />
+                </div>
+                <div class="form-group col-sm-5">
+                    <input type="text" id="productoName" name="productoName" class="form-control form-control-user" placeholder="Modelo" />
+                </div>
+                <div class="form-group col-sm-5">
+                    <div class="input-group">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="far fa-calendar-alt"></i>
+                            </span>
+                        </div>
+                        <input type="text" id="CreationDate" name="CreationDate" class="form-control  form-control-user float-right" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <select id="marcaViewData" class="form-control select2" placeholder="Marcas">
+                        <option value="0"> Todos </option>
+                        @foreach (var item in ViewData["ListaMarcas"] as IList<App.Ventas.Models.Marca>)
+                        {
+                            <option value="@item.NMarca">@item.NMarca</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group col-sm-4">
+                    <select id="marcaViewBag" class="form-control select2" placeholder="Marcas">
+                        <option value="0"> Todos </option>
+                        @foreach (var item in ViewBag.lstMarcas)
+                        {
+                            <option value="@item.NMarca">@item.NMarca</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="#" class="btn btn-primary" onclick="producto.searchByFilter2()">
+                    <span class="fa fa-search">&nbsp;&nbsp; Buscar Productos</span>
+                </a>
+            </div>
+            @*<div class="col-sm-2">
+                <a href="#" class="btn btn-success" onclick="appVentas.getModal('@Url.Action("Create")');"
+                   data-toggle="modal" data-target="#modal-container">
+                    <span class="fa fa-plus">&nbsp;&nbsp; Crear Producto</span>
+                </a>
+            </div>*@
+        </div>
+        <br />
+        <hr />
+    </div>
+</div>
