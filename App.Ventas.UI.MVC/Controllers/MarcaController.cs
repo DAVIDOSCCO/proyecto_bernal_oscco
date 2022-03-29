@@ -60,7 +60,7 @@ namespace App.Ventas.UI.MVC.Controllers
                     return PartialView("_Create", marca);
             }
             // _log.Info("No funcionó el binding de marca (ModelState = false)");
-            return PartialView("_Create", marca);
+            return PartialView("_Create",marca);
         }
         [HttpGet]
         public async Task<ActionResult> Edit(int id)

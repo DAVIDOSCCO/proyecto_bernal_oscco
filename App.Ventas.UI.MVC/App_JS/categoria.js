@@ -29,7 +29,7 @@
     }
 
     function initPaginacion() {
-        //$("#categoriaTable").dataTable().fnDestroy(); //en caso de haber conflictos por intentar paginar varias veces, descomentar esta instrucción
+        $("#categoriaTable").dataTable().fnDestroy(); //en caso de haber conflictos por intentar paginar varias veces, descomentar esta instrucción
 
         $("#categoriaTable").DataTable({
             "paging": true,

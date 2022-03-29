@@ -185,8 +185,10 @@
   <ItemGroup>
     <Content Include="App_JS\appVentas.js" />
     <Content Include="App_JS\categoria.js" />
+    <Content Include="App_JS\color.js" />
     <Content Include="App_JS\marca.js" />
     <Content Include="App_JS\producto.js" />
+    <Content Include="App_JS\talla.js" />
     <Content Include="bin\App.Ventas.UI.MVC.dll" />
     <Content Include="bin\App.Ventas.UI.MVC.pdb" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -2166,6 +2168,18 @@
     <Content Include="Views\Venta\_FiltrosBusqueda.cshtml" />
     <Content Include="Views\Venta\_List.cshtml" />
     <Content Include="Views\Venta\_Compra.cshtml" />
+    <Content Include="Views\Talla\_Create.cshtml" />
+    <Content Include="Views\Talla\_Delete.cshtml" />
+    <Content Include="Views\Talla\_Details.cshtml" />
+    <Content Include="Views\Talla\_Edit.cshtml" />
+    <Content Include="Views\Talla\_FiltrosBusqueda.cshtml" />
+    <Content Include="Views\Talla\_List.cshtml" />
+    <Content Include="Views\Color\_Create.cshtml" />
+    <Content Include="Views\Color\_Delete.cshtml" />
+    <Content Include="Views\Color\_Details.cshtml" />
+    <Content Include="Views\Color\_Edit.cshtml" />
+    <Content Include="Views\Color\_FiltrosBusqueda.cshtml" />
+    <Content Include="Views\Color\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

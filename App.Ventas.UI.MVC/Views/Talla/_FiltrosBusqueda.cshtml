@@ -6,34 +6,34 @@
         <form class="user">
             <div class="row">
                 <div class="form-group col-sm-2">
-                    <input type="text" id="marcaId" name="Id" class="form-control form-control-user" placeholder="Código de Marca" />
+                    <input type="text" id="tallaId" name="Id" class="form-control form-control-user" placeholder="Código de Talla" />
                 </div>
                 <div class="form-group col-sm-5">
-                    <input type="text" id="marcaName" name="marca" class="form-control form-control-user" placeholder="Nombre de Marca" />
+                    <input type="text" id="tallaName" name="talla" class="form-control form-control-user" placeholder="Nombre de Talla" />
                 </div>
                 <div class="form-group col-sm-5">
                     @*<div class="input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text">
-                                <i class="far fa-calendar-alt"></i>
-                            </span>
-                        </div>
-                        <input type="text" id="CreationDate" name="CreationDate" class="form-control  form-control-user float-right" />
-                    </div>*@
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                            <input type="text" id="CreationDate" name="CreationDate" class="form-control  form-control-user float-right" />
+                        </div>*@
                 </div>
             </div>
         </form>
 
         <div class="row">
             <div class="col-sm-2">
-                <a href="#" class="btn btn-primary" onclick="marca.searchByFilter()">
-                    <span class="fa fa-search">&nbsp;&nbsp; Buscar Marcas</span>
+                <a href="#" class="btn btn-primary" onclick="talla.searchByFilter()">
+                    <span class="fa fa-search">&nbsp;&nbsp; Buscar Tallas</span>
                 </a>
             </div>
             <div class="col-sm-2">
                 <a href="#" class="btn btn-success" onclick="appVentas.getModal('@Url.Action("Create")');"
                    data-toggle="modal" data-target="#modal-container">
-                    <span class="fa fa-plus">&nbsp;&nbsp; Crear Marca</span>
+                    <span class="fa fa-plus">&nbsp;&nbsp; Crear Talla</span>
                 </a>
             </div>
         </div>

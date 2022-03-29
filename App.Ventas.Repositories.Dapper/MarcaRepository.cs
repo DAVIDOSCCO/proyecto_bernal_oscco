@@ -42,7 +42,7 @@ namespace App.Ventas.Repositories.Dapper
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Marca", nombre);
-                return await connection.QueryAsync<Marca>("dbo.Usp_BuscaMarca", parameters,
+                return await connection.QueryAsync<Marca>("dbo.Usp_BuscarMarca", parameters,
                                                         commandType: System.Data.CommandType.StoredProcedure);
             }
         }

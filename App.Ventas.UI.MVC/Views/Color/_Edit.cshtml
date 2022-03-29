@@ -1,24 +1,34 @@
-﻿@model App.Ventas.Models.Marca
+﻿@model App.Ventas.Models.Color
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
 
-@*@using (Html.BeginForm())*@
-@using (Html.BeginForm("Create", "Marca", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Ajax.BeginForm("Edit", new { Controller = "Color" },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "modal-body",
+        OnSuccess = "color.success(data, 'edit');"
+    },
+    htmlAttributes: new { id = "editForm" }
+))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Marca</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
         <div class="form-group">
-            @Html.LabelFor(model => model.NMarca, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NColor, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NMarca, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NMarca, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.NColor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NColor, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -40,18 +50,17 @@
             </div>
         </div>
 
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-warning" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+

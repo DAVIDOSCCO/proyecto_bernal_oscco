@@ -1,0 +1,49 @@
+﻿@model App.Ventas.Models.Color
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NColor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NColor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+    </dl>
+</div>
+<p>
+    <hr />
+    <hr />
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Aceptar", "Index")
+
+        </div>
+    </div>
+
+
+</p>
+

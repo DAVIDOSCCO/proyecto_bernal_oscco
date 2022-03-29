@@ -22,7 +22,7 @@ namespace App.Ventas.Repositories.Dapper
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@id", id);
-                return await connection.QuerySingleAsync<Color>("dbo.uspBuscarColorPorId", parameters,
+                return await connection.QuerySingleAsync<Color>("dbo.usp_BuscarColorPorId", parameters,
                                                         commandType: System.Data.CommandType.StoredProcedure);
                 //return null;
                 //return await connection.GetAllAsync<Producto>().Result.Where(c => c.Id.Equals(id)).First();
@@ -34,7 +34,7 @@ namespace App.Ventas.Repositories.Dapper
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Color", Color);
-                return await connection.QueryAsync<Color>("dbo.UspBuscarColor", parameters,
+                return await connection.QueryAsync<Color>("dbo.Usp_BuscarColor", parameters,
                                                         commandType: System.Data.CommandType.StoredProcedure);
             }
         }
