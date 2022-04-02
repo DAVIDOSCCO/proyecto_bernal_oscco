@@ -14,6 +14,10 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using App.Ventas.UI.MVC.ViewModels;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
 
 namespace App.Ventas.UI.MVC.Controllers
 {
@@ -249,7 +253,51 @@ namespace App.Ventas.UI.MVC.Controllers
         return PartialView("_List", lstProductos);
     }
 
+        [HttpGet]
+        // GET: Productoes/Details/5
+        public async Task<ActionResult> Consumir(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var httpClient = new HttpClient();
+
+            var credential = new Dictionary<string, string>
+                {
+                    {"username","davidoscco@gmail.com" },
+                    {"password","12345" },
+                    {"grant_type", "password" }
+                };
+
+            var response = await httpClient.PostAsync("https://localhost:44337/token",
+                           new FormUrlEncodedContent(credential));
+
+            var tokenContent = response.Content.ReadAsStringAsync().Result;
+
+            var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+            /*  consumir el servicio */
 
 
-}
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                tokenDictionary["access_token"]);
+
+
+            //var httpClient = new HttpClient();
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "jZ8LMyyGs3HFX3cWrjnuq2Kyhq9oSrjQn0lanDs4I2H2Lzl3N6ddsl-mjzLZQlw2E5KQc4syjnjOTvS48M1UW4YFwHAk58he0ywbNV-CfnzFuGX_ODwIy5TmsQ5QIQts3mGKRO17BmAgVWhv7zo7eSMxU1eARzWpDhQ5nMY4rfAze_CA5FS9R45Ioy8mWZ_KXyTF4eYTK0_xrhtDBOm0Ahq9UHbsbdz9o3qYOD-cd69QY4SS1lAnQyudAcMUff9Z");
+            var json = await httpClient.GetStringAsync("https://localhost:44337/api/Producto/" + id);
+            var DetalleProducto = JsonConvert.DeserializeObject<Producto>(json);
+
+            //Producto producto = db.Producto.Find(id);
+            //if (producto == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return PartialView("_Details", DetalleProducto);
+        }
+
+
+    }
 }

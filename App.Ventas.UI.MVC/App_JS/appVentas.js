@@ -6,8 +6,13 @@
 
     return appVentas;
 
-    function getModalContent(url) {
+    function getModalContent(url, tamanio) {
         $.get(url, function (data) {
+            $('#modal-dialog').removeClass('modal-xl');
+            $('#modal-dialog').removeClass('modal-lg');
+            $('#modal-dialog').removeClass('modal-sm');
+            $('#modal-dialog').removeClass('modal-fullscreen');
+            $('#modal-dialog').addClass(tamanio);
             $('.modal-body').html(data);
         })
     }

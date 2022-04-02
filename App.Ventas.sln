@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Ventas.UnitOfWork", "Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Ventas.UI.MVC", "App.Ventas.UI.MVC\App.Ventas.UI.MVC.csproj", "{94CECB74-1401-467A-9689-3F19280F4CB0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Servicios", "Servicios", "{00616279-62DA-4030-947D-21FD14EB3852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Ventas.WebApi", "App.Ventas.WebApi\App.Ventas.WebApi.csproj", "{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,10 @@ Global
 		{94CECB74-1401-467A-9689-3F19280F4CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94CECB74-1401-467A-9689-3F19280F4CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94CECB74-1401-467A-9689-3F19280F4CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +68,7 @@ Global
 		{BAAE508A-AA77-4931-8B78-8FBB48F1780A} = {817CB84D-341E-4522-921F-CC663728CA55}
 		{C1D2D9EC-2E1D-4D7C-B98B-597ECCE94CF6} = {817CB84D-341E-4522-921F-CC663728CA55}
 		{94CECB74-1401-467A-9689-3F19280F4CB0} = {AB381546-B7E6-452E-8288-7AAAF2FA16D8}
+		{7C7645D4-BED6-473F-97BA-CE0D32AB8BAE} = {00616279-62DA-4030-947D-21FD14EB3852}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {617B5266-1E4D-4CEC-A274-46817DA8FBA4}

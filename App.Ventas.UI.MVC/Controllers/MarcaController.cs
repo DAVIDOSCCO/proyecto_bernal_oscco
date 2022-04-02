@@ -14,6 +14,10 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using App.Ventas.UI.MVC.ViewModels;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace App.Ventas.UI.MVC.Controllers
 {
@@ -47,14 +51,54 @@ namespace App.Ventas.UI.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resp = await _unit.Marcas.Agregar(marca);
-                if (resp > 0)
+                //var resp = await _unit.Marcas.Agregar(marca);
+
+                var httpClient = new HttpClient();
+
+                var credential = new Dictionary<string, string>
+                {
+                    {"username","davidoscco@gmail.com" },
+                    {"password","12345" },
+                    {"grant_type", "password" }
+                };
+
+                var response = await httpClient.PostAsync("https://localhost:44337/token",
+                               new FormUrlEncodedContent(credential));
+
+                var tokenContent = response.Content.ReadAsStringAsync().Result;
+
+                var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+                /*  consumir el servicio */
+
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                    tokenDictionary["access_token"]);
+
+                var content = JsonConvert.SerializeObject(marca);
+
+                var buffer = Encoding.UTF8.GetBytes(content);
+
+                var byteContent = new ByteArrayContent(buffer);
+
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                /*  llamar al servicio */
+
+                response = await httpClient.PostAsync("https://localhost:44337/api/marca",byteContent);
+
+                var result = response.Content.ReadAsStringAsync().Result;
+
+                var contentResult = JsonConvert.DeserializeObject<Dictionary<string, int>>(result);
+
+ /*               if (resp > 0) */
+                if (contentResult["id"] > 0)
                     //  return RedirectToAction("Index");
 
                     return (new JsonResult
                     {
                         ContentType = "application/json",
-                        Data = resp
+                        Data = contentResult["id"]  /*resp */
                     });
                 else
                     return PartialView("_Create", marca);
@@ -72,8 +116,41 @@ namespace App.Ventas.UI.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var resp = await _unit.Marcas.Modificar(marca);
-                if (resp)
+                // var resp = await _unit.Marcas.Modificar(marca);
+
+                var httpClient = new HttpClient();
+
+                var credential = new Dictionary<string, string>
+                {
+                    {"username","davidoscco@gmail.com" },
+                    {"password","12345" },
+                    {"grant_type", "password" }
+                };
+
+                var response = await httpClient.PostAsync("https://localhost:44337/token",
+                               new FormUrlEncodedContent(credential));
+
+                var tokenContent = response.Content.ReadAsStringAsync().Result;
+
+                var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+                /*  consumir el servicio */
+
+
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                    tokenDictionary["access_token"]);
+
+                var content = JsonConvert.SerializeObject(marca);
+                var buffer = Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response2 = await httpClient.PutAsync("https://localhost:44337/api/marca", byteContent);
+                var result = response2.Content.ReadAsStringAsync().Result;
+                var contentResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+                // if (resp)
+                if (contentResult["status"].Equals("true"))
                     return (new JsonResult
                     {
                         ContentType = "application/json",
