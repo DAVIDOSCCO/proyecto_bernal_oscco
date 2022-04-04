@@ -18,6 +18,9 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
+using System.Text;
+using System.Security.Claims;
+using System.Threading;
 
 namespace App.Ventas.UI.MVC.Controllers
 {
@@ -155,23 +158,24 @@ namespace App.Ventas.UI.MVC.Controllers
             //return View(await _unit.Productos.Obtener(id));
             return PartialView("_Delete", await _unit.Productos.Obtener(id));
         }
-        [HttpPost]
-        [ActionName("Delete")]
-        public async Task<ActionResult> DeletePost(int id)
-        {
-            //if ((await _unit.Productos.Eliminar(id)) != 0) 
-            //    return RedirectToAction("Index");
+        
+        //[HttpPost]
+        //[ActionName("Delete")]
+        //public async Task<ActionResult> DeletePost(int id)
+        //{
+        //    //if ((await _unit.Productos.Eliminar(id)) != 0) 
+        //    //    return RedirectToAction("Index");
 
-            //return View(_unit.Productos.Obtener(id));
-            if ((await _unit.Categorias.Eliminar(id)) != 0)
-                return (new JsonResult
-                {
-                    ContentType = "application/json",
-                    Data = id
-                });
+        //    //return View(_unit.Productos.Obtener(id));
+        //    if ((await _unit.Categorias.Eliminar(id)) != 0)
+        //        return (new JsonResult
+        //        {
+        //            ContentType = "application/json",
+        //            Data = id
+        //        });
 
-            return PartialView("_Delete", _unit.Productos.Obtener(id));
-        }
+        //    return PartialView("_Delete", _unit.Productos.Obtener(id));
+        //}
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
@@ -255,7 +259,7 @@ namespace App.Ventas.UI.MVC.Controllers
 
         [HttpGet]
         // GET: Productoes/Details/5
-        public async Task<ActionResult> Consumir(int? id)
+        public async Task<ActionResult> Details_WS(int? id)
         {
             if (id == null)
             {
@@ -263,26 +267,29 @@ namespace App.Ventas.UI.MVC.Controllers
             }
 
             var httpClient = new HttpClient();
+            // var credential = new Dictionary<string, string>
+            //    {
+            //        {"username","cesbernal74@gmail.com" },
+            //        {"password","123" },
+            //        {"grant_type", "password" }
+            //    };
 
-            var credential = new Dictionary<string, string>
-                {
-                    {"username","davidoscco@gmail.com" },
-                    {"password","12345" },
-                    {"grant_type", "password" }
-                };
+            //var response = await httpClient.PostAsync("https://localhost:44337/token",
+            //               new FormUrlEncodedContent(credential));
 
-            var response = await httpClient.PostAsync("https://localhost:44337/token",
-                           new FormUrlEncodedContent(credential));
+            //var tokenContent = response.Content.ReadAsStringAsync().Result;
 
-            var tokenContent = response.Content.ReadAsStringAsync().Result;
-
-            var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+            //var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
 
             /*  consumir el servicio */
 
 
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                tokenDictionary["access_token"]);
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            //    tokenDictionary["access_token"]);
+
+            var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+            var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
 
             //var httpClient = new HttpClient();
@@ -296,6 +303,189 @@ namespace App.Ventas.UI.MVC.Controllers
             //    return HttpNotFound();
             //}
             return PartialView("_Details", DetalleProducto);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit_WS(Producto producto)
+        {
+
+            //HttpPostedFileBase FileBase = Request.Files[0];
+
+            //if (FileBase.ContentLength == 0)
+            //{
+            //    //string  imagenActual = Request.Form["Imagen2"].ToString();
+            //}
+
+            //else
+
+            //{
+            //    WebImage image = new WebImage(FileBase.InputStream);
+            //    producto.Imagen = image.GetBytes();
+            //}
+
+            if (ModelState.IsValid)
+            {
+                var httpClient = new HttpClient();
+                //var credential = new Dictionary<string, string>
+                //{
+                //    {"username","cesbernal74@gmail.com" },
+                //    {"password","123" },
+                //    {"grant_type", "password" }
+                //};
+
+                //var response = await httpClient.PostAsync("https://localhost:44337/token",
+                //               new FormUrlEncodedContent(credential));
+
+                //var tokenContent = response.Content.ReadAsStringAsync().Result;
+                //var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+                ///*  consumir el servicio */
+
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                //    tokenDictionary["access_token"]);
+                var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+                var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+                var content = JsonConvert.SerializeObject(producto);
+                var buffer = Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await httpClient.PutAsync("https://localhost:44337/api/Producto", byteContent);
+                var result = response.Content.ReadAsStringAsync().Result;
+                var contentResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+
+                if (contentResult["status"].Equals("true"))
+                {
+                    Console.WriteLine(producto.id);
+                    Console.WriteLine(producto.Modelo);
+                    return (new JsonResult
+                    {
+                        ContentType = "application/json",
+                        Data = producto
+                    });
+
+                }
+                else
+                    return PartialView("_Edit", producto);
+            }
+            return PartialView("_Edit", producto);
+        }
+
+
+        [HttpPost]
+        //[ActionName("Delete")]
+        public async Task<ActionResult> Delete_WS(Producto producto)
+        {
+            var httpClient = new HttpClient();
+            //var credential = new Dictionary<string, string>
+            //    {
+            //        {"username","cesbernal74@gmail.com" },
+            //        {"password","123" },
+            //        {"grant_type", "password" }
+            //    };
+
+            //var response = await httpClient.PostAsync("https://localhost:44337/token",
+            //               new FormUrlEncodedContent(credential));
+
+            //var tokenContent = response.Content.ReadAsStringAsync().Result;
+            //var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+            ///*  consumir el servicio */
+
+            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+            //    tokenDictionary["access_token"]);
+
+            var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+            var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            var response = await httpClient.DeleteAsync("https://localhost:44337/api/Producto/" + producto.id);
+            var result = response.Content.ReadAsStringAsync().Result;
+            var contentResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+
+            if (contentResult["delete"].Equals("true"))
+
+                return (new JsonResult
+                {
+                    ContentType = "application/json",
+                    Data = producto
+                });
+
+            return PartialView("_Delete", _unit.Productos.Obtener(producto.id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create_WS(Producto producto)
+        {
+
+            HttpPostedFileBase FileBase = Request.Files[0];  //Posicion 0
+                                                             // Para recorrer varios archivos que vengan desde la pagina  HttpFileCollectionBase ColleccioBase=Request.File
+
+            if (FileBase.ContentLength == 0)
+            {
+
+            }
+
+            else
+
+            {
+                WebImage image = new WebImage(FileBase.InputStream);
+                producto.Imagen = image.GetBytes();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var httpClient = new HttpClient();
+                //var credential = new Dictionary<string, string>
+                //{
+                //    {"username","cesbernal74@gmail.com" },
+                //    {"password","123" },
+                //    {"grant_type", "password" }
+                //};
+
+                //var response = await httpClient.PostAsync("https://localhost:44337/token",
+                //               new FormUrlEncodedContent(credential));
+
+                //var tokenContent = response.Content.ReadAsStringAsync().Result;
+                //var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
+                ///*  consumir el servicio */
+
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                //    tokenDictionary["access_token"]);
+
+                var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+                var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+                var content = JsonConvert.SerializeObject(producto);
+                var buffer = Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await httpClient.PostAsync("https://localhost:44337/api/Producto", byteContent);
+                var result = response.Content.ReadAsStringAsync().Result;
+                var contentResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+
+                if (contentResult["status"].Equals("true"))
+                    return (new JsonResult
+                    {
+                        ContentType = "application/json",
+                        Data = contentResult["id"]
+                    });
+                else
+                    return PartialView("_Create", producto);
+            }
+            _log.Info("No funcionó el binding de producto (ModelState = false)");
+            return PartialView("_Create", producto);
+
+
         }
 
 

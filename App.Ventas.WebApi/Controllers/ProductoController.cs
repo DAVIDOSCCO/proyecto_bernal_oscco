@@ -42,7 +42,7 @@ namespace App.Ventas.WebApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var idProducto = await _unit.Productos.Agregar(producto);
-            return Ok(new { id = idProducto });
+            return Ok(new { id = idProducto,status=true });
         }
 
         // PUT api/<controller>/5

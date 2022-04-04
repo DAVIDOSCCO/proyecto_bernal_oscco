@@ -10,7 +10,7 @@
 @*<h2>Create</h2>*@
 
 @*@using (Html.BeginForm("Create", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
-@using (Ajax.BeginForm("Create", new { Controller = "Producto" },
+@using (Ajax.BeginForm("Create_WS", new { Controller = "Producto" },
     new AjaxOptions
     {
         HttpMethod = "POST",

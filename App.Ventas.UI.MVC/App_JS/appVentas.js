@@ -38,7 +38,7 @@
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Se editó el registro satisfactoriamente con el ID = ' + data.id + ' y nombre = ' + data.Modelo + '!',
+                title: 'Se editó el registro satisfactoriamente con el ID = ' + data.id , // + ' y nombre = ' + data.Modelo + '!',
                 showConfirmButton: true,
                 showCloseButton: true,
                 timer: 5000 //milisegundos
@@ -48,7 +48,17 @@
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Se inactivó el registro satisfactoriamente con el ID = ' + data + '!',
+                title: 'Se eliminó el registro satisfactoriamente', //con el ID = ' + data.id ,
+                showConfirmButton: true,
+                showCloseButton: true,
+                timer: 5000 //milisegundos
+            })
+        }
+        else if (option === 'compra') {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Se realizó la Transacción satisfactoriamente',
                 showConfirmButton: true,
                 showCloseButton: true,
                 timer: 5000 //milisegundos

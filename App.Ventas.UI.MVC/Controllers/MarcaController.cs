@@ -17,7 +17,10 @@ using App.Ventas.UI.MVC.ViewModels;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Net;
 using System.Text;
+using System.Security.Claims;
+using System.Threading;
 
 namespace App.Ventas.UI.MVC.Controllers
 {
@@ -55,26 +58,29 @@ namespace App.Ventas.UI.MVC.Controllers
 
                 var httpClient = new HttpClient();
 
-                var credential = new Dictionary<string, string>
-                {
-                    {"username","davidoscco@gmail.com" },
-                    {"password","12345" },
-                    {"grant_type", "password" }
-                };
+                //var credential = new Dictionary<string, string>
+                //{
+                //    {"username","davidoscco@gmail.com" },
+                //    {"password","12345" },
+                //    {"grant_type", "password" }
+                //};
 
-                var response = await httpClient.PostAsync("https://localhost:44337/token",
-                               new FormUrlEncodedContent(credential));
+                //var response = await httpClient.PostAsync("https://localhost:44337/token",
+                //               new FormUrlEncodedContent(credential));
 
-                var tokenContent = response.Content.ReadAsStringAsync().Result;
+                //var tokenContent = response.Content.ReadAsStringAsync().Result;
 
-                var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+                //var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
 
-                /*  consumir el servicio */
+                ///*  consumir el servicio */
 
 
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                    tokenDictionary["access_token"]);
+                //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
+                //    tokenDictionary["access_token"]);
 
+                var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+                var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
                 var content = JsonConvert.SerializeObject(marca);
 
                 var buffer = Encoding.UTF8.GetBytes(content);
@@ -85,7 +91,7 @@ namespace App.Ventas.UI.MVC.Controllers
 
                 /*  llamar al servicio */
 
-                response = await httpClient.PostAsync("https://localhost:44337/api/marca",byteContent);
+                var response = await httpClient.PostAsync("https://localhost:44337/api/marca",byteContent);
 
                 var result = response.Content.ReadAsStringAsync().Result;
 
@@ -116,29 +122,11 @@ namespace App.Ventas.UI.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // var resp = await _unit.Marcas.Modificar(marca);
-
                 var httpClient = new HttpClient();
 
-                var credential = new Dictionary<string, string>
-                {
-                    {"username","davidoscco@gmail.com" },
-                    {"password","12345" },
-                    {"grant_type", "password" }
-                };
-
-                var response = await httpClient.PostAsync("https://localhost:44337/token",
-                               new FormUrlEncodedContent(credential));
-
-                var tokenContent = response.Content.ReadAsStringAsync().Result;
-
-                var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
-
-                /*  consumir el servicio */
-
-
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",
-                    tokenDictionary["access_token"]);
+                var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+                var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
 
                 var content = JsonConvert.SerializeObject(marca);
                 var buffer = Encoding.UTF8.GetBytes(content);
@@ -171,7 +159,17 @@ namespace App.Ventas.UI.MVC.Controllers
         [ActionName("Delete")]
         public async Task<ActionResult> DeletePost(int id)
         {
-            if ((await _unit.Marcas.Eliminar(id)) != 0)
+            var httpClient = new HttpClient();
+
+            var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+            var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            var response2 = await httpClient.DeleteAsync("https://localhost:44337/api/marca/" + id);
+            var result = response2.Content.ReadAsStringAsync().Result;
+            var contentResult = JsonConvert.DeserializeObject<Dictionary<string, string>>(result);
+
+            if (contentResult["delete"].Equals("true"))
 
                 return (new JsonResult
                 {
@@ -184,7 +182,21 @@ namespace App.Ventas.UI.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            return PartialView("_Details", await _unit.Marcas.Obtener(id));
+            if (id <= 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var httpClient = new HttpClient();
+
+            var identity = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity);
+            var token = identity.Claims.Where(x => x.Type == CustomClaims.token).FirstOrDefault();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+
+            var json = await httpClient.GetStringAsync("https://localhost:44337/api/marca/" + id);
+            var Detalle = JsonConvert.DeserializeObject<Marca>(json);
+
+            return PartialView("_Details", Detalle);
         }
 
         public async Task<PartialViewResult> List()

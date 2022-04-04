@@ -71,21 +71,21 @@
                     @Html.DisplayFor(modelItem => item.Estado)
                 </td>
                 <td>
+                    @*<a href="#" class="btn btn-warning" onclick="appVentas.getModal('@Url.Action("Edit", new { id = item.id })','modal-lg');"
+                       data-toggle="modal" data-target="#modal-container">
+                        <span class="fa fa-edit">&nbsp;&nbsp; Editar</span>
+                    </a>*@
+
                     <a href="#" class="btn btn-warning" onclick="appVentas.getModal('@Url.Action("Edit", new { id = item.id })','modal-lg');"
                        data-toggle="modal" data-target="#modal-container">
                         <span class="fa fa-edit">&nbsp;&nbsp; Editar</span>
                     </a>
-
-                    <a href="#" class="btn btn-warning" onclick="appVentas.getModal('@Url.Action("Edit", new { id = item.id })','modal-lg');"
-                       data-toggle="modal" data-target="#modal-container">
-                        <span class="fa fa-edit">&nbsp;&nbsp; Editar WS</span>
-                    </a>
-                    <a href="#" class="btn btn-primary" onclick="appVentas.getModal('@Url.Action("Consumir", new { id = item.id })','');"
+                    @*<a href="#" class="btn btn-primary" onclick="appVentas.getModal('@Url.Action("Consumir", new { id = item.id })','');"
                        data-toggle="modal" data-target="#modal-container">
                         <span class="fa fa-search">&nbsp;&nbsp; Ver WS</span>
-                    </a>
+                    </a>*@
 
-                    <a href="#" class="btn btn-primary" onclick="appVentas.getModal('@Url.Action("Details", new { id = item.id })','modal-ls');"
+                    <a href="#" class="btn btn-primary" onclick="appVentas.getModal('@Url.Action("Details_WS", new { id = item.id })','modal-ls');"
                        data-toggle="modal" data-target="#modal-container">
                         <span class="fa fa-search">&nbsp;&nbsp; Ver</span>
                     </a>

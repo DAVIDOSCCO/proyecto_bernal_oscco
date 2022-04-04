@@ -19,5 +19,7 @@ namespace App.Ventas.Models
         public int Rol { get; set; }
         //[Computed] //DataAnnotation de Dapper que indica que es un campo que no debe mapearse con la tabla de BD
         //public string ReturnUrl { get; set; }
+
+       
     }
 }

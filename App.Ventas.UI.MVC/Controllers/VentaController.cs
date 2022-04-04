@@ -116,6 +116,7 @@ namespace App.Ventas.UI.MVC.Controllers
             var resp = await _unit.Ventas.InsertarTx(venta);
             if (resp > 0)
             {
+                                
                 return PartialView("_List", await _unit.Productos.Listar());
             }
             else

@@ -3,10 +3,12 @@ using App.Ventas.Repositories.Dapper;
 using App.Ventas.UI.MVC.ViewModels;
 using App.Ventas.UnitOfWork;
 using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -104,6 +106,20 @@ namespace App.Ventas.UI.MVC.Controllers
                 return View(usuarioViewModel);
             }
 
+            var httpClient = new HttpClient();
+            var credential = new Dictionary<string, string>
+                {
+                    {"username",usuarioViewModel.Email },
+                    {"password",usuarioViewModel.Password },
+                    {"grant_type", "password" }
+                };
+
+            var response = await httpClient.PostAsync("https://localhost:44337/token",
+                           new FormUrlEncodedContent(credential));
+
+            var tokenContent = response.Content.ReadAsStringAsync().Result;
+            var tokenDictionary = JsonConvert.DeserializeObject<Dictionary<string, string>>(tokenContent);
+
             var identity = new ClaimsIdentity(new []
             {
                 new Claim(ClaimTypes.Email, usuarioValido.Email),
@@ -111,6 +127,8 @@ namespace App.Ventas.UI.MVC.Controllers
                 new Claim(ClaimTypes.Name, $"{usuarioValido.Nombres} {usuarioValido.Apellidos}"),
                 new Claim(ClaimTypes.NameIdentifier, usuarioValido.Id.ToString())
             }, "ApplicationCookie");
+
+            identity.AddClaim(new Claim(CustomClaims.token, tokenDictionary["access_token"]));
 
             var context = Request.GetOwinContext();
             var authManager = context.Authentication;
@@ -169,5 +187,9 @@ namespace App.Ventas.UI.MVC.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+    }
+    public static class CustomClaims
+    {
+        public const string token = "";
     }
 }
